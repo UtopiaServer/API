@@ -84,6 +84,7 @@ class CreateItemStack(graphene.Mutation):
             slot=slot
         )
 
+
 class CleanInventory(graphene.Mutation):
     inventory = graphene.Field(InventoryType)
 
@@ -101,6 +102,7 @@ class CleanInventory(graphene.Mutation):
         return CleanInventory(
             inventory=inventory
         )
+
 
 class Mutation(graphene.ObjectType):
     create_inventory = CreateInventory.Field()

@@ -1,11 +1,9 @@
 from django.db import models
 from characters.models import Character
 
-# Create your models here.
-
 
 class Inventory(models.Model):
-    
+
     character = models.OneToOneField(
         Character,
         on_delete=models.CASCADE,
@@ -26,4 +24,3 @@ class ItemStack(models.Model):
     nbt_data = models.TextField(default="{}")
     slot = models.IntegerField()
     inventory = models.ForeignKey(Inventory, on_delete=models.CASCADE)
-

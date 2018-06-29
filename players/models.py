@@ -8,6 +8,7 @@ class Player(models.Model):
 
     uuid = models.UUIDField(primary_key=True)
 
+
 class PlayerCharacter(models.Model):
 
     character = models.OneToOneField(

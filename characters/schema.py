@@ -18,6 +18,7 @@ class Query(graphene.ObjectType):
     def resolve_characters(self, info, **kwargs):
         return Character.objects.all()
 
+
 class CreateCharacter(graphene.Mutation):
     id = graphene.Int()
     status = graphene.Int()
@@ -30,7 +31,12 @@ class CreateCharacter(graphene.Mutation):
         last_name = graphene.String()
 
     def mutate(self, info, first_name, last_name):
-        character = Character(status=0, age=0, first_name=first_name, last_name=last_name)
+        character = Character(
+            status=0,
+            age=0,
+            first_name=first_name,
+            last_name=last_name
+        )
         character.save()
 
         return CreateCharacter(
@@ -42,6 +48,5 @@ class CreateCharacter(graphene.Mutation):
         )
 
 
-#4
 class Mutation(graphene.ObjectType):
     create_character = CreateCharacter.Field()

@@ -5,6 +5,9 @@ from .models import Character
 
 
 class CharacterType(DjangoObjectType):
+
+    id = graphene.Int(source='pk')
+
     class Meta:
         model = Character
 

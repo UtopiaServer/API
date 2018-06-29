@@ -53,14 +53,16 @@ class CreateItemStack(graphene.Mutation):
     registry_name = graphene.String()
     count = graphene.Int()
     nbt_data = graphene.String()
+    slot = graphene.Int()
 
     class Arguments:
         inventory_id = graphene.Int()
         registry_name = graphene.String()
         count = graphene.Int()
         nbt_data = graphene.String()
+        slot = graphene.Int()
 
-    def mutate(self, info, inventory_id, registry_name, count, nbt_data):
+    def mutate(self, info, inventory_id, registry_name, count, nbt_data, slot):
         inventory = Inventory.objects.filter(character_id=inventory_id).first()
 
         if not inventory:
@@ -70,18 +72,37 @@ class CreateItemStack(graphene.Mutation):
             inventory=inventory,
             registry_name=registry_name,
             count=count,
-            nbt_data=nbt_data
+            nbt_data=nbt_data,
+            slot=slot
         )
 
         return CreateItemStack(
             inventory=inventory,
             registry_name=registry_name,
             count=count,
-            nbt_data=nbt_data
+            nbt_data=nbt_data,
+            slot=slot
         )
 
+class CleanInventory(graphene.Mutation):
+    inventory = graphene.Field(InventoryType)
 
-#4
+    class Arguments:
+        inventory_id = graphene.Int()
+
+    def mutate(self, info, inventory_id):
+        inventory = Inventory.objects.filter(character_id=inventory_id).first()
+
+        if not inventory:
+            raise Exception("Invalid Inventory !")
+
+        ItemStack.objects.filter(inventory=inventory).delete()
+
+        return CleanInventory(
+            inventory=inventory
+        )
+
 class Mutation(graphene.ObjectType):
     create_inventory = CreateInventory.Field()
     create_itemstack = CreateItemStack.Field()
+    clean_inventory = CleanInventory.Field()

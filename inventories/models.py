@@ -24,6 +24,6 @@ class ItemStack(models.Model):
     registry_name = models.TextField(default="")
     count = models.IntegerField(default=0)
     nbt_data = models.TextField(default="{}")
-    slot = models.CharField(max_length=20)
+    slot = models.IntegerField()
     inventory = models.ForeignKey(Inventory, on_delete=models.CASCADE)
 

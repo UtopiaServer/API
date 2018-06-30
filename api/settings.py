@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'graphene_django',
     'characters',
     'inventories',
-    'players'
+    'players',
+    'worlds'
 ]
 
 MIDDLEWARE = [

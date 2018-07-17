@@ -1,29 +1,7 @@
 import graphene
-from graphene_django import DjangoObjectType
-from characters.schema import Character
-from characters.schema import CharacterType
-from .models import Inventory, ItemStack
-
-
-class InventoryType(DjangoObjectType):
-    class Meta:
-        model = Inventory
-
-
-class ItemStackType(DjangoObjectType):
-    class Meta:
-        model = ItemStack
-
-
-class Query(graphene.ObjectType):
-    inventories = graphene.List(InventoryType)
-    item_stacks = graphene.List(ItemStackType)
-
-    def resolve_inventories(self, info, **kwargs):
-        return Inventory.objects.all()
-
-    def resolve_item_stacks(self, info, **kwargs):
-        return ItemStack.objects.all()
+from characters.types import Character, CharacterType
+from inventories.types import InventoryType, ItemStackType
+from inventories.models import Inventory, ItemStack
 
 
 class CreateInventory(graphene.Mutation):
@@ -102,6 +80,17 @@ class CleanInventory(graphene.Mutation):
         return CleanInventory(
             inventory=inventory
         )
+
+
+class Query(graphene.ObjectType):
+    inventories = graphene.List(InventoryType)
+    item_stacks = graphene.List(ItemStackType)
+
+    def resolve_inventories(self, info, **kwargs):
+        return Inventory.objects.all()
+
+    def resolve_item_stacks(self, info, **kwargs):
+        return ItemStack.objects.all()
 
 
 class Mutation(graphene.ObjectType):

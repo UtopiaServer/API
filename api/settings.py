@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'characters',
     'inventories',
     'players',
-    'worlds'
+    'worlds',
+    'launcher',
+    'mods_webapp'
 ]
 
 MIDDLEWARE = [

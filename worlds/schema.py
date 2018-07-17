@@ -1,22 +1,7 @@
 import graphene
 from graphene_django import DjangoObjectType
-
-from .models import World
-
-
-class WorldType(DjangoObjectType):
-
-    id = graphene.Int(source='pk')
-
-    class Meta:
-        model = World
-
-
-class Query(graphene.ObjectType):
-    worlds = graphene.List(WorldType)
-
-    def resolve_worlds(self, info, **kwargs):
-        return World.objects.all()
+from worlds.types import WorldType
+from worlds.models import World
 
 
 class CreateWorld(graphene.Mutation):
@@ -60,6 +45,13 @@ class SetWorldState(graphene.Mutation):
         return SetWorldState(
             world=world
         )
+
+
+class Query(graphene.ObjectType):
+    worlds = graphene.List(WorldType)
+
+    def resolve_worlds(self, info, **kwargs):
+        return World.objects.all()
 
 
 class Mutation(graphene.ObjectType):

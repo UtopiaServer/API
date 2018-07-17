@@ -1,19 +1,10 @@
 import graphene
 from django.db.models import Q
 from graphene_django import DjangoObjectType
-from characters.schema import CharacterType
+from characters.types import CharacterType
 from characters.models import Character
-from .models import Player, PlayerCharacter
-
-
-class PlayerType(DjangoObjectType):
-    class Meta:
-        model = Player
-
-
-class PlayerCharacterType(DjangoObjectType):
-    class Meta:
-        model = PlayerCharacter
+from players.types import PlayerType, PlayerCharacterType
+from players.models import Player, PlayerCharacter
 
 
 class Query(graphene.ObjectType):

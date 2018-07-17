@@ -1,22 +1,7 @@
 import graphene
 from graphene_django import DjangoObjectType
-
-from .models import Character
-
-
-class CharacterType(DjangoObjectType):
-
-    id = graphene.Int(source='pk')
-
-    class Meta:
-        model = Character
-
-
-class Query(graphene.ObjectType):
-    characters = graphene.List(CharacterType)
-
-    def resolve_characters(self, info, **kwargs):
-        return Character.objects.all()
+from characters.types import CharacterType
+from characters.models import Character
 
 
 class CreateCharacter(graphene.Mutation):
@@ -46,6 +31,13 @@ class CreateCharacter(graphene.Mutation):
             first_name=character.first_name,
             last_name=character.last_name
         )
+
+
+class Query(graphene.ObjectType):
+    characters = graphene.List(CharacterType)
+
+    def resolve_characters(self, info, **kwargs):
+        return Character.objects.all()
 
 
 class Mutation(graphene.ObjectType):

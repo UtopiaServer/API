@@ -36,7 +36,12 @@ class CreateCharacter(graphene.Mutation):
 class Query(graphene.ObjectType):
     characters = graphene.List(CharacterType)
 
-    def resolve_characters(self, info, **kwargs):
+    def resolve_characters(self, info, id=None, **kwargs):
+        if id:
+            filter = (
+                Q(id=id)
+            )
+            return Character.objects.filter(filter)
         return Character.objects.all()
 
 

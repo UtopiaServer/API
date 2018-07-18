@@ -2,4 +2,3 @@
 *.sqlite3
 .vscode/
 *.pyc
-migrations/

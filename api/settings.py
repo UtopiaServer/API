@@ -25,7 +25,7 @@ SECRET_KEY = 'rg#^7^juotq36e9mxrhfv%m8bsjdo+a&70clp!&nfa54$3tk2_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -40,9 +40,7 @@ INSTALLED_APPS = [
     'characters',
     'inventories',
     'players',
-    'worlds',
-    'launcher',
-    'mods_webapp'
+    'worlds'
 ]
 
 MIDDLEWARE = [

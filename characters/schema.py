@@ -1,8 +1,11 @@
 import graphene
+from django.db.models import Q
 from graphene_django import DjangoObjectType
 from characters.types import CharacterType
 from characters.models import Character
-
+from players.types import PlayerType
+from utils.random_name import FantasyNameGenerator
+import itertools
 
 class CreateCharacter(graphene.Mutation):
     id = graphene.Int()
@@ -16,11 +19,14 @@ class CreateCharacter(graphene.Mutation):
         last_name = graphene.String()
 
     def mutate(self, info, first_name, last_name):
+        names = []
+        if not len(first_name) or not len(last_name):
+            names = [i for i in itertools.islice(FantasyNameGenerator(2, 10), 2)]
         character = Character(
             status=0,
             age=0,
-            first_name=first_name,
-            last_name=last_name
+            first_name=first_name if len(first_name) else names.pop(),
+            last_name=last_name if len(last_name) else names.pop()
         )
         character.save()
 
@@ -34,15 +40,26 @@ class CreateCharacter(graphene.Mutation):
 
 
 class Query(graphene.ObjectType):
-    characters = graphene.List(CharacterType)
+    characters = graphene.List(CharacterType, id=graphene.Int(), player=graphene.Boolean())
 
-    def resolve_characters(self, info, id=None, **kwargs):
+    def resolve_characters(self, info, id=None, player=None, **kwargs):
+        characters = Character.objects.all()
         if id:
             filter = (
                 Q(id=id)
             )
-            return Character.objects.filter(filter)
-        return Character.objects.all()
+            characters = characters.filter(filter)
+        if player is not None and not player:
+            filter = (
+                Q(playercharacter=None)
+            )
+            characters = characters.filter(filter)
+        if player is not None and player:
+            filter = (
+                Q(playercharacter=None)
+            )
+            characters = characters.exclude(filter)
+        return characters
 
 
 class Mutation(graphene.ObjectType):

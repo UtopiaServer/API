@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'characters',
     'inventories',
     'players',
+    'factions',
     'worlds'
 ]
 

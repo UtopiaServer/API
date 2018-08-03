@@ -10,4 +10,3 @@ class FactionType(DjangoObjectType):
     class Meta:
         model = Faction
 
-

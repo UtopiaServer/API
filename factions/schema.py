@@ -31,13 +31,15 @@ class DeleteFaction(graphene.Mutation):
     class Arguments:
         id = graphene.Int()
 
-    def mutate(self, info, name):
+    def mutate(self, info, id):
         faction = Faction.objects.filter(id=id).first()
+        local_id = faction.id
+        local_name = faction.name
         faction.delete()
 
         return CreateFaction(
-            id=faction.id,
-            name=faction.name
+            id=local_id,
+            name=local_name
         )
 
 class InviteCharacter(graphene.Mutation):

@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'inventories',
     'players',
     'factions',
-    'worlds'
+    'worlds',
+    'territories'
 ]
 
 MIDDLEWARE = [

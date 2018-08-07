@@ -66,7 +66,3 @@ class MName:
                 name = name + suffix
                 prefix = prefix[1:] + suffix
         return name.capitalize()  
-
-for i in range(1):
-    name = MName("firstname.txt").New() + " " + MName("surname.txt").New()
-    print(name)

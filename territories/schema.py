@@ -42,7 +42,7 @@ class CreateTerritory(graphene.Mutation):
             minZ=minZ,
             maxX=maxX,
             maxY=maxY,
-            maxZ=maxX,
+            maxZ=maxZ,
             dimension=dimension,
             faction=faction
         )
@@ -55,7 +55,7 @@ class CreateTerritory(graphene.Mutation):
             minZ=territory.minZ,
             maxX=territory.maxX,
             maxY=territory.maxY,
-            maxZ=territory.maxX,
+            maxZ=territory.maxZ,
             dimension=territory.dimension,
             faction=territory.faction
         )

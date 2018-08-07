@@ -4,7 +4,7 @@ from graphene_django import DjangoObjectType
 from characters.types import CharacterType
 from characters.models import Character
 from players.types import PlayerType
-from utils.random_name import FantasyNameGenerator
+from utils.namegen import MName
 import itertools
 
 class CreateCharacter(graphene.Mutation):
@@ -20,13 +20,11 @@ class CreateCharacter(graphene.Mutation):
 
     def mutate(self, info, first_name, last_name):
         names = []
-        if not len(first_name) or not len(last_name):
-            names = [i for i in itertools.islice(FantasyNameGenerator(2, 10), 2)]
         character = Character(
             status=0,
             age=0,
-            first_name=first_name if len(first_name) else names.pop(),
-            last_name=last_name if len(last_name) else names.pop()
+            first_name=first_name if len(first_name) else MName("utils/firstname.txt").New(),
+            last_name=last_name if len(last_name) else MName("utils/surname.txt").New()
         )
         character.save()
 

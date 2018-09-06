@@ -51,24 +51,33 @@ class AddModToNamespace(graphene.Mutation):
     version = graphene.String()
     md5 = graphene.String()
     url = graphene.String()
+    namespace = graphene.Field(NamespaceType)
 
     class Arguments:
+        namespace_id = graphene.Int()
         version = graphene.String()
         md5 = graphene.String()
         url = graphene.String()
 
-    def mutate(self, info, version, md5, url):
+    def mutate(self, info, version, md5, url, namespace_id):
+        namespace = Namespace.objects.filter(id=namespace_id).first()
+
+        if namespace is None:
+            raise Exception("No namespace found for this ID")
+
         mod = Mod.objects.create(
             version=version,
             md5=md5,
-            url=url
+            url=url,
+            namespace=namespace
         )
 
         return AddModToNamespace(
             id=mod.id,
             version=version,
             md5=md5,
-            url=url
+            url=url,
+            namespace=namespace
         )
 
 
@@ -107,7 +116,7 @@ class CreateRevision(graphene.Mutation):
             version=version
         )
 
-        return CreateNamespace(
+        return CreateRevision(
             id=revision.id,
             version=revision.version
         )
@@ -238,7 +247,7 @@ class Mutation(graphene.ObjectType):
     create_namespace = CreateNamespace.Field()
     delete_namespace = DeleteNamespace.Field()
     add_mod_to_revision = AddModToRevision.Field()
-    add_mod_to_namespace = AddModToRevision.Field()
+    add_mod_to_namespace = AddModToNamespace.Field()
     remove_mod_from_revision = RemoveModFromRevision.Field()
     remove_mod_from_namespace = RemoveModFromNamespace.Field()
 

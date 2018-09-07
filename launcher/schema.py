@@ -1,7 +1,7 @@
 import graphene
 from django.db.models import Q
 from graphene_django import DjangoObjectType
-from launcher.models import Mod, Revision, Namespace
+from launcher.models import Mod, Revision, Namespace, RevisionMod
 from launcher.types import ModType, RevisionType, NamespaceType
 import itertools
 

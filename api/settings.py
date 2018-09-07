@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'factions',
     'worlds',
     'territories',
-    'launcher'
+    'launcher',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -53,7 +54,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'graphql_jwt.middleware.JSONWebTokenMiddleware'
+    'graphql_jwt.middleware.JSONWebTokenMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  
+    'django.middleware.common.CommonMiddleware'
 ]
 
 ROOT_URLCONF = 'api.urls'
@@ -135,3 +138,14 @@ STATIC_URL = '/static/'
 GRAPHENE = {
     'SCHEMA': 'api.schema.schema',
 }
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = (
+    'localhost:8000',
+    'api.utopia-server.com'
+)
+CORS_ORIGIN_REGEX_WHITELIST = (
+    'localhost:8000',
+    'api.utopia-server.com'
+)

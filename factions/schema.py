@@ -34,12 +34,10 @@ class DeleteFaction(graphene.Mutation):
     def mutate(self, info, id):
         faction = Faction.objects.filter(id=id).first()
         local_id = faction.id
-        local_name = faction.name
         faction.delete()
 
-        return CreateFaction(
-            id=local_id,
-            name=local_name
+        return DeleteFaction(
+            id=local_id
         )
 
 class InviteCharacter(graphene.Mutation):

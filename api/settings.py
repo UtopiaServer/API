@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'worlds',
     'territories',
     'launcher',
-    'corsheaders'
+    'corsheaders',
+    'appliances'
 ]
 
 MIDDLEWARE = [

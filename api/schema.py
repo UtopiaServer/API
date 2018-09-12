@@ -7,6 +7,7 @@ import worlds.schema
 import factions.schema
 import territories.schema
 import launcher.schema
+import appliances.schema
 
 
 class Query(
@@ -17,6 +18,7 @@ class Query(
             factions.schema.Query,
             territories.schema.Query,
             launcher.schema.Query,
+            appliances.schema.Query,
             graphene.ObjectType
         ):
     pass
@@ -30,6 +32,7 @@ class Mutation(
             factions.schema.Mutation,
             territories.schema.Mutation,
             launcher.schema.Mutation,
+            appliances.schema.Mutation,
             graphene.ObjectType
         ):
     token_auth = graphql_jwt.ObtainJSONWebToken.Field()

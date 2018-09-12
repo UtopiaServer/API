@@ -9,76 +9,18 @@ https://docs.djangoproject.com/en/2.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
-
+from api.settings import INSTALLED_APPS as INSTALLED_APPS
+from api.settings import BASE_DIR as BASE_DIR
+from api.settings import MIDDLEWARE as MIDDLEWARE
+from api.settings import ROOT_URLCONF as ROOT_URLCONF
+from api.settings import TEMPLATES as TEMPLATES
+from api.settings import WSGI_APPLICATION as WSGI_APPLICATION
 import os
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'rg#^7^juotq36e9mxrhfv%m8bsjdo+a&70clp!&nfa54$3tk2_'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
-
-# Application definition
-
-INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'graphene_django',
-    'characters',
-    'inventories',
-    'players',
-    'factions',
-    'worlds',
-    'territories',
-    'launcher',
-    'corsheaders'
-]
-
-MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'graphql_jwt.middleware.JSONWebTokenMiddleware',
-    'corsheaders.middleware.CorsMiddleware',  
-    'django.middleware.common.CommonMiddleware'
-]
-
-ROOT_URLCONF = 'api.urls'
-
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
-]
-
-WSGI_APPLICATION = 'api.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
@@ -87,10 +29,13 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'db_api',
-	'USER': 'db_api',
-	'PASSWORD': 'db_api',
-	'HOST': 'database.webserver_back',
-	'PORT': '3306'
+        'USER': 'db_api',
+        'PASSWORD': 'db_api',
+        'HOST': 'database.webserver_back',
+        'PORT': '3306',
+        'OPTIONS': {
+            'sql_mode': 'traditional',
+        }
     }
 }
 

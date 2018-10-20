@@ -121,6 +121,34 @@ class CreateRevision(graphene.Mutation):
             version=revision.version
         )
 
+class CreateRevisionFrom(graphene.Mutation):
+
+    id = graphene.Int()
+    version = graphene.String()
+
+    class Arguments:
+        id = graphene.Int()
+        version = graphene.String()
+    
+    def mutate(self, info, id, version):
+        old_revision = Revision.objects.filter(id=id).first()
+
+        revision = Revision.objects.create(
+            version=version
+        )
+        mods = old_revision.mods.all()
+
+        for mod in mods:
+            RevisionMod.objects.create(
+                revision=revision,
+                mod=mod
+            )
+        return CreateRevisionFrom(
+            id=revision.id,
+            version=revision.version
+        )
+
+
 
 class DeleteRevision(graphene.Mutation):
 
@@ -244,6 +272,7 @@ class Query(graphene.ObjectType):
 class Mutation(graphene.ObjectType):
     create_revision = CreateRevision.Field()
     delete_revision = DeleteRevision.Field()
+    create_revision_from = CreateRevisionFrom.Field()
     create_namespace = CreateNamespace.Field()
     delete_namespace = DeleteNamespace.Field()
     add_mod_to_revision = AddModToRevision.Field()

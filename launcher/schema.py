@@ -229,6 +229,8 @@ class RemoveModFromRevision(graphene.Mutation):
         if revision_mod is None:
             raise Exception("No link found")
 
+        revision_mod.delete()
+
         return RemoveModFromRevision(
             revision=revision,
             mod=mod

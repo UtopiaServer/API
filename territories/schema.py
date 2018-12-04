@@ -80,7 +80,7 @@ class DeleteTerritory(graphene.Mutation):
 
 class Query(graphene.ObjectType):
     territories = graphene.List(TerritoryType, name=graphene.String(), factionID=graphene.Int())
-    territory = graphene.List(TerritoryType, id=graphene.Int())
+    territory = graphene.Field(TerritoryType, id=graphene.Int())
 
     def resolve_territory(self, info, id=None):
         """Resolve a sole territory using it's ID."""

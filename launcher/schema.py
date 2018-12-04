@@ -239,16 +239,13 @@ class RemoveModFromRevision(graphene.Mutation):
 
 
 class Query(graphene.ObjectType):
-    namespaces = graphene.List(NamespaceType, id=graphene.Int(), name=graphene.String())
-    revisions = graphene.List(RevisionType, id=graphene.Int(), version=graphene.String())
+    namespaces = graphene.List(NamespaceType, name=graphene.String())
+    namespace = graphene.Field(NamespaceType, id=graphene.Int())
+    revisions = graphene.List(RevisionType, version=graphene.String())
+    revision = graphene.Field(RevisionType, id=graphene.Int())
 
-    def resolve_namespaces(self, info, id=None, name=None, **kwargs):
+    def resolve_namespaces(self, info, name=None, **kwargs):
         namespaces = Namespace.objects.all()
-        if id:
-            filter = (
-                Q(id=id)
-            )
-            namespaces = namespaces.filter(filter)
         if name is not None and id is None:
             filter = (
                 Q(name__startswith=name)
@@ -256,19 +253,33 @@ class Query(graphene.ObjectType):
             namespaces = namespaces.filter(filter)
         return namespaces
     
-    def resolve_revisions(self, info, id=None, version=None, **kwargs):
-        revisions = Revision.objects.all()
+    def resolve_namespace(self, info, id=None):
+        """Resolve a sole namespace."""
+        namespaces = Namespace.objects.all()
         if id:
             filter = (
                 Q(id=id)
             )
-            revisions = revisions.filter(filter)
+            namespaces = namespaces.filter(filter)
+        return namespaces.first()
+    
+    def resolve_revisions(self, info, version=None, **kwargs):
+        revisions = Revision.objects.all()
         if version is not None and id is None:
             filter = (
                 Q(version__startswith=version)
             )
             revisions = revisions.filter(filter)
         return revisions
+
+    def resolve_revision(self, info, id=None):
+        revisions = Revision.objects.all()
+        if id:
+            filter = (
+                Q(id=id)
+            )
+            revisions = revisions.filter(filter)
+        return revisions.first()
 
 
 class Mutation(graphene.ObjectType):

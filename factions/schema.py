@@ -111,21 +111,26 @@ class KickCharacter(graphene.Mutation):
         )
 
 class Query(graphene.ObjectType):
-    factions = graphene.List(FactionType, id=graphene.Int(), name=graphene.String())
+    factions = graphene.List(FactionType, name=graphene.String())
+    faction = graphene.Field(FactionType, id=graphene.Int())
 
-    def resolve_factions(self, info, id=None, name=None, **kwargs):
+    def resolve_factions(self, info, name=None, **kwargs):
         factions = Faction.objects.all()
-        if id:
-            filter = (
-                Q(id=id)
-            )
-            factions = factions.filter(filter)
         if name is not None and id is None:
             filter = (
                 Q(name__startswith=name)
             )
             factions = factions.filter(filter)
         return factions
+
+    def resolve_faction(self, info, id=None):
+        factions = Faction.objects.all()
+        if id:
+            filter = (
+                Q(id=id)
+            )
+            factions = factions.filter(filter)
+        return factions.first()
 
 
 class Mutation(graphene.ObjectType):

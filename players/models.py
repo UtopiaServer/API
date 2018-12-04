@@ -16,7 +16,7 @@ class PlayerPosition(models.Model):
 class Player(models.Model):
 
     uuid = models.UUIDField(primary_key=True)
-    position = models.OneToOneField(PlayerPosition, on_delete=models.CASCADE)
+    position = models.OneToOneField(PlayerPosition, on_delete=models.CASCADE, null=True)
 
 
 class PlayerCharacter(models.Model):

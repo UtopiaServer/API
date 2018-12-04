@@ -79,15 +79,19 @@ class DeleteTerritory(graphene.Mutation):
         )
 
 class Query(graphene.ObjectType):
-    territories = graphene.List(TerritoryType, id=graphene.Int(), name=graphene.String(), factionID=graphene.Int())
+    territories = graphene.List(TerritoryType, name=graphene.String(), factionID=graphene.Int())
+    territory = graphene.List(TerritoryType, id=graphene.Int())
 
-    def resolve_territories(self, info, id=None, name=None, factionID=None, **kwargs):
+    def resolve_territory(self, info, id=None):
+        """Resolve a sole territory using it's ID."""
+        filter = (
+            Q(id=id)
+        )
+        return Territory.objects.filter(filter).first()
+
+    def resolve_territories(self, info, name=None, factionID=None, **kwargs):
+        """Resolve territories using their names or the faction they are into."""
         territories = Territory.objects.all()
-        if id:
-            filter = (
-                Q(id=id)
-            )
-            territories = territories.filter(filter)
         if factionID:
             faction = Faction.objects.all().filter(id=factionID).first()
             filter = (

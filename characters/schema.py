@@ -62,13 +62,10 @@ class Query(graphene.ObjectType):
         alive=graphene.Boolean()
     )
 
+    character = graphene.Field(CharacterType, id=graphene.Int())
+
     def resolve_characters(self, info, id=None, player=None, alive=None, **kwargs):
         characters = Character.objects.all()
-        if id:
-            filter = (
-                Q(id=id)
-            )
-            characters = characters.filter(filter)
         if alive is not None and alive:
             filter = (
                 Q(status=0)
@@ -90,6 +87,15 @@ class Query(graphene.ObjectType):
             )
             characters = characters.exclude(filter)
         return characters
+
+    def resolve_character(self, info, id=None):
+        characters = Character.objects.all()
+        if id:
+            filter = (
+                Q(id=id)
+            )
+            characters = characters.filter(filter)
+        return characters.first()
 
 
 class Mutation(graphene.ObjectType):

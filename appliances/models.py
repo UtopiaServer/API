@@ -1,9 +1,10 @@
-from django.db import models
+"""File registering models used on the app."""
 
-# Create your models here.
+from django.db import models
 
 
 class Appliance(models.Model):
+    """Submitted appliance model."""
 
     first_name = models.TextField()
     last_name = models.TextField()

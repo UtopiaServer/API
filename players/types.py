@@ -1,6 +1,12 @@
 import graphene
 from graphene_django import DjangoObjectType
-from players.models import Player, PlayerCharacter
+from players.models import PlayerPosition, Player, PlayerCharacter
+
+
+class PlayerPositionType(DjangoObjectType):
+
+    class Meta:
+        model = PlayerPosition
 
 
 class PlayerType(DjangoObjectType):

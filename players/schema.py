@@ -4,20 +4,23 @@ from graphene_django import DjangoObjectType
 from characters.types import CharacterType
 from characters.models import Character
 from players.types import PlayerType, PlayerCharacterType
-from players.models import Player, PlayerCharacter
+from players.models import PlayerPosition, Player, PlayerCharacter
 
 
 class Query(graphene.ObjectType):
-    players = graphene.List(PlayerType, uuid=graphene.UUID())
+    player = graphene.Field(PlayerType, uuid=graphene.UUID())
+    players = graphene.List(PlayerType)
 
-    def resolve_players(self, info, uuid=None, **kwargs):
-        if uuid:
-            filter = (
-                Q(uuid=uuid)
-            )
-            return Player.objects.filter(filter)
-
+    def resolve_players(self, info, **kwargs):
         return Player.objects.all()
+
+    def resolve_player(self, info, uuid=None, **kwargs):
+        filter = (
+            Q(uuid=uuid)
+        )
+        return Player.objects.filter(filter).first()
+        
+
 
 
 class CreatePlayer(graphene.Mutation):
@@ -66,7 +69,43 @@ class AssociatePlayerCharacter(graphene.Mutation):
             character=character
         )
 
+class MovePlayer(graphene.Mutation):
+    
+    player = graphene.Field(PlayerType)
+
+    class Arguments:
+        uuid = graphene.UUID()
+        x = graphene.Integer()
+        y = graphene.Integer()
+        z = graphene.Integer()
+        dim = graphene.Integer()
+    
+    def mutate(self, info, uuid, x, y, z, dim):
+        player = Player.objects.filter(uuid=uuid).first()
+
+        if not player:
+            raise Exception("Invalid player")
+
+        if not player.position:
+            player.position = PlayerPosition.objects.create(
+                x=x,
+                y=y,
+                z=z,
+                dim=dim
+            )
+        
+        player.position.x = x
+        player.position.y = y
+        player.position.z = z
+        player.position.dim = dim
+        player.position.save()
+        player.save()
+
+        return MovePlayer(
+            player=player
+        )
 
 class Mutation(graphene.ObjectType):
     create_player = CreatePlayer.Field()
     associate_player_character = AssociatePlayerCharacter.Field()
+    move_player = MovePlayer.Field()

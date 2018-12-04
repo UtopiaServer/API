@@ -1,3 +1,5 @@
+"""File containing the GraphQL schemas for the used app."""
+
 import graphene
 from django.db.models import Q
 from graphene_django import DjangoObjectType
@@ -7,6 +9,8 @@ import itertools
 
 
 class CreateAppliance(graphene.Mutation):
+    """Mutation creating an appliance."""
+
     id = graphene.Int()
     first_name = graphene.String()
     last_name = graphene.String()
@@ -21,6 +25,8 @@ class CreateAppliance(graphene.Mutation):
     appliance = graphene.String()
 
     class Arguments:
+        """Metaclass defining all the arguments passed to the mutation."""
+
         first_name = graphene.String()
         last_name = graphene.String()
         age = graphene.Int()
@@ -33,11 +39,7 @@ class CreateAppliance(graphene.Mutation):
         expectations = graphene.String()
         appliance = graphene.String()
 
-    def mutate(self, info, first_name,
-               last_name, age, country,
-               way_of_known, discord_handle,
-               minecraft_username, have_you,
-               gamemodes, expectations, appliance):
+    def mutate(self, info, first_name, last_name, age, country, way_of_known, discord_handle, minecraft_username, have_you, gamemodes, expectations, appliance):
         appliance = Appliance.objects.create(
             first_name=first_name,
             last_name=last_name,

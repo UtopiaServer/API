@@ -87,16 +87,21 @@ class DeleteAppliance(graphene.Mutation):
 
 
 class Query(graphene.ObjectType):
-    appliances = graphene.List(ApplianceType, id=graphene.Int())
+    appliances = graphene.List(ApplianceType)
+    appliance = graphene.Field(ApplianceType, id=graphene.Int())
 
-    def resolve_appliances(self, info, id=None, **kwargs):
+    def resolve_appliances(self, info, **kwargs):
+        appliances = Appliance.objects.all()
+        return appliances
+
+    def resolve_appliance(self, info, id=None, **kwargs):
         appliances = Appliance.objects.all()
         if id:
             filter = (
                 Q(id=id)
             )
             appliances = appliances.filter(filter)
-        return appliances
+        return appliances.first()
 
 
 class Mutation(graphene.ObjectType):

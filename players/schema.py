@@ -75,10 +75,10 @@ class MovePlayer(graphene.Mutation):
 
     class Arguments:
         uuid = graphene.UUID()
-        x = graphene.Integer()
-        y = graphene.Integer()
-        z = graphene.Integer()
-        dim = graphene.Integer()
+        x = graphene.Int()
+        y = graphene.Int()
+        z = graphene.Int()
+        dim = graphene.Int()
     
     def mutate(self, info, uuid, x, y, z, dim):
         player = Player.objects.filter(uuid=uuid).first()

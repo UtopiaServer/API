@@ -1,7 +1,7 @@
 # UtopiaServer API Dockerfile
 FROM python:3.7-alpine
 
-RUN apk add --update mariadb-connector-c-dev build-base
+RUN apk add --update mariadb-connector-c-dev build-base bash zip
 
 RUN mkdir /srv/api
 COPY requirements.txt /srv/api

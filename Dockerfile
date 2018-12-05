@@ -7,7 +7,7 @@ RUN mkdir /srv/api
 COPY requirements.txt /srv/api
 COPY entrypoint.sh /srv/api
 RUN pip install -r /srv/api/requirements.txt
-COPY ./src /srv/api
+COPY ./src /srv/api/src
 
 # Allow root recursively on the folder
 RUN chown root:root -R /srv/api

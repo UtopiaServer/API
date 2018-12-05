@@ -1,7 +1,7 @@
 image: python:3.7-alpine
 
 services:
-  - mysql:latest
+  - mysql:5.7
 
 stages:
   - test

@@ -22,9 +22,9 @@ before_script:
   - echo "DROP DATABASE test;" >> /tmp/sql
   - echo "FLUSH PRIVILEGES;" >> /tmp/sql
   - mysql_install_db --user=mysql --datadir=${DB_DATA_PATH}
+  - rc-service mariadb start
   - mysqladmin -u root password "${DB_ROOT_PASS}"
   - cat /tmp/sql | mysql -u root --password="${DB_ROOT_PASS}"
-  - rc-service mariadb start
   - pip install requirements.txt
   - cd src
   - python manage.py makemigrations `for i in $(ls -d */); do echo ${i%%/}; done | grep -v 'api' | grep -v 'utils'`

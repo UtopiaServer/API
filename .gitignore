@@ -1,4 +1,6 @@
 .mypy_cache/
+backup/*.json
+backup/*.zip
 *.sqlite3
 .vscode/
 *.pyc

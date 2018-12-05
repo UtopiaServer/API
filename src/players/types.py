@@ -11,8 +11,6 @@ class PlayerPositionType(DjangoObjectType):
 
 class PlayerType(DjangoObjectType):
 
-    id = graphene.Int(source='pk')
-
     class Meta:
         model = Player
 

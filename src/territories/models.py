@@ -3,6 +3,7 @@ from factions.models import Faction
 
 # Create your models here.
 
+
 class Territory(models.Model):
     name = models.TextField()
     minX = models.IntegerField()

@@ -3,7 +3,7 @@ FROM python:3.7-alpine
 
 RUN apk add --update mariadb-connector-c-dev build-base
 
-RUN mkdirs /srv/api
+RUN mkdir /srv/api
 COPY requirements.txt /srv/api
 RUN pip install -r /srv/api/requirements.txt
 COPY ./src /srv/api

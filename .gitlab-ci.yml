@@ -16,9 +16,9 @@ variables:
   MYSQL_PASSWORD: "db_api"
 
 before_script:
+  - cd src
   - apk add --update mariadb-connector-c-dev build-base
   - pip install -r requirements.txt
-  - cd src
   - python manage.py makemigrations `for i in $(ls -d */); do echo ${i%%/}; done | grep -v 'api' | grep -v 'utils'`
   - python manage.py migrate
   - find -type d -name migrations -prune -exec rm -rf {} \;
@@ -30,7 +30,6 @@ test_api:
     - master
     - develop
   script:
-    - cd src
     - python manage.py test
 
 
@@ -40,7 +39,6 @@ codestyle_api:
     - master
     - develop
   script:
-    - cd src
     - pip install pycodestyle
     - pycodestyle .
 
@@ -51,6 +49,5 @@ docstyle_api:
     - master
     - develop
   script:
-    - cd src
     - pip install pydocstyle
     - pydocstyle .

@@ -11,6 +11,7 @@ stages:
 variables:
   MYSQL_HOST: "mysql"
   MYSQL_ROOT_PASSWORD: "root"
+  MYSQL_DATABASE: "db_api"
 
 before_script:
   - apk add --update mariadb-connector-c-dev build-base

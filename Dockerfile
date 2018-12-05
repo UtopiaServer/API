@@ -5,6 +5,7 @@ RUN apk add --update mariadb-connector-c-dev build-base
 
 RUN mkdir /srv/api
 COPY requirements.txt /srv/api
+COPY entrypoint.sh /srv/api
 RUN pip install -r /srv/api/requirements.txt
 COPY ./src /srv/api
 

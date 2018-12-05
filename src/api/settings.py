@@ -90,7 +90,7 @@ DATABASES = {
         'NAME': 'db_api',
         'USER': 'db_api',
         'PASSWORD': 'db_api',
-        'HOST': 'localhost',
+        'HOST': os.environ["MYSQL_HOST"] if "MYSQL_HOST" in os.environ else "localhost",
         'PORT': '3306',
         'OPTIONS': {
             'sql_mode': 'traditional',

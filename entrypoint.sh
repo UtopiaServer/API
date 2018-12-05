@@ -1,9 +1,9 @@
 #!/bin/bash
 
-if [ "$API_MODE" != "dev" ]; then
-    parameters="--settings=api.prod_settings"
-else
+if [ "$API_MODE" != "production" ]; then
     parameters=""
+else
+    parameters="--settings=api.prod_settings"
 fi
 
 setup_db() {
